@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AuthorController, MemberController};
+use App\Http\Controllers\{AuthorController, MemberController, PublisherController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +27,5 @@ require __DIR__.'/auth.php';
 Route::middleware('auth')->group(function () {
     Route::resource('member', MemberController::class);
     Route::resource('author', AuthorController::class);
+    Route::resource('publisher', PublisherController::class);
 });
