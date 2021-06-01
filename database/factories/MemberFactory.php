@@ -22,7 +22,8 @@ class MemberFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'tc' => \Str::random(11),
+            'birth_date' => $this->faker->date('Y-m-d')
         ];
     }
 }

@@ -14,8 +14,8 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->unsignedBigInteger('id');
-            $table->string('tc', 11);
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('tc', 11)->unique();
             $table->date('birth_date');
             $table->timestamp('banned_at')->nullable();
             $table->foreign('id')

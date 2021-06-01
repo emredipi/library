@@ -16,13 +16,17 @@ class Member extends Model
     ];
 
     protected $casts = [
-        'birth_date' => 'date',
         'banned_at' => 'datetime'
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
+    }
+
+    public function getIsBannedAttribute(): bool
+    {
+        return !!$this->banned_at;
     }
 
     public function books()

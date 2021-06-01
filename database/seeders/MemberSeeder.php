@@ -25,11 +25,14 @@ class MemberSeeder extends Seeder
 
         $member = Member::create([
             'id' => $user->id,
-            'birth_date' => "06/09/1997",
+            'birth_date' => "1997.09.06",
             'tc' => "11122233344",
         ]);
 
-        $user = User::factory()->create();
-        Member::factory()->create();
+        for ($i = 0; $i < 30; $i++) {
+            Member::factory()
+                ->for(User::factory())
+                ->create();
+        }
     }
 }
