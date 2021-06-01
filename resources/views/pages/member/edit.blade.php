@@ -2,7 +2,7 @@
     <x-slot name="header">Üye Düzenle</x-slot>
     <x-section>
         <div class="w-1/2 mx-auto">
-            <x-alert/>
+            <x-flash-message/>
             @if($errors->any())
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
