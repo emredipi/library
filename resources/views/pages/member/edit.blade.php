@@ -2,9 +2,7 @@
     <x-slot name="header">Üye Düzenle</x-slot>
     <x-section>
         <div class="w-1/2 mx-auto">
-            @if(session('success'))
-                <x-alert type="success" :message="session('success')"/>
-            @endif
+            <x-alert/>
             @if($errors->any())
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
