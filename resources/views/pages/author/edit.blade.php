@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Yazar Düzenle</x-slot>
     <x-section>
-        <div class="w-1/2 mx-auto">
+        <div class="md:w-1/2 mx-auto">
             <x-flash-message/>
             @if($errors->any())
                 <x-alert type="error" :message="$errors->first()"/>
