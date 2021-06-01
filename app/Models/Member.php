@@ -12,7 +12,7 @@ class Member extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id', 'tc', 'birth_date', 'banned_at'
+        'id', 'tc', 'birth_date', 'banned_at'
     ];
 
     protected $casts = [
@@ -20,9 +20,9 @@ class Member extends Model
         'banned_at' => 'datetime'
     ];
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function books()

@@ -28,7 +28,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $member = Member::create([
-            'user_id' => $user->id,
+            'id' => $user->id,
             'birth_date' => $request->birth_date,
             'tc' => $request->tc,
         ]);

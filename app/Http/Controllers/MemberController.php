@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view('pages.member.index', [
+            'users' => User::query()
+                ->join('members', 'users.id', '=', 'members.id')
+                ->paginate(10)
+        ]);
     }
 
     /**

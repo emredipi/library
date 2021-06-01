@@ -14,10 +14,14 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('id');
             $table->string('tc', 11);
             $table->date('birth_date');
             $table->timestamp('banned_at')->nullable();
+            $table->foreign('id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
         });
     }
 
