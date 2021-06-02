@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">Yazarlar</x-slot>
     <x-section>
-        <div class="mx-auto md:w-1/2">
+        <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
             <x-table :columns="['id','Ad','Soyad','İşlem']">
                 @foreach($authors as $author)
