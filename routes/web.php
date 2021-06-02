@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AuthorController, BlockController, MemberController, PublisherController};
+use App\Http\Controllers\{AuthorController, BlockController, CategoryController, MemberController, PublisherController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +29,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('author', AuthorController::class);
     Route::resource('publisher', PublisherController::class);
     Route::resource('block', BlockController::class);
+    Route::resource('category', CategoryController::class);
 });
