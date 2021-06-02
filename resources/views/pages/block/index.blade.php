@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">Yayınevleri</x-slot>
+    <x-slot name="header">Bloklar</x-slot>
     <x-section>
         <x-flash-message/>
         <x-table :columns="['id','Kod','İşlem']">
