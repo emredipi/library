@@ -7,23 +7,29 @@
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
             <x-card>
-                <form action="{{route('author.update',$author->id)}}" method="POST">
+                <form
+                    action="{{isset($author) ? route('author.update',$author->id) : route('author.store')}}"
+                    method="POST">
                     @csrf
-                    @method('put')
+                    @method(isset($author) ? 'put' : 'post')
                     <x-input-group
                         name="name"
                         text="Ad"
                         type="text"
-                        :value="$author->name"
+                        :value="$author->name ?? null"
                     />
                     <x-input-group
                         name="surname"
                         text="Soyad"
                         type="text"
-                        :value="$author->surname"
+                        :value="$author->surname ?? null"
                     />
                     <div class="flex justify-between">
-                        <x-delete-button :action-url="route('author.destroy',$author->id)"/>
+                        @isset($author)
+                            <x-delete-button :action-url="route('author.destroy',$author->id)"/>
+                        @else
+                            <span></span>
+                        @endisset
                         <x-button>Kaydet</x-button>
                     </div>
                 </form>

@@ -14,25 +14,17 @@ class AuthorController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('pages.author.edit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $author = Author::create($request->only('name', 'surname'));
+        return redirect()
+            ->route('author.edit', $author->id)
+            ->with('success', 'Yazar eklendi.');
     }
 
     /**

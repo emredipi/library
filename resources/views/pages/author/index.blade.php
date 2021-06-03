@@ -3,7 +3,12 @@
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
-            <x-table :columns="['id','Ad','Soyad','İşlem']">
+            <div class="text-right mb-3">
+                <a href="{{route('author.create')}}">
+                    <x-button>Yazar Ekle</x-button>
+                </a>
+            </div>
+            <x-table :columns="['ID','Ad','Soyad','İşlem']">
                 @foreach($authors as $author)
                     <tr>
                         <x-column>{{$author->id}}</x-column>
