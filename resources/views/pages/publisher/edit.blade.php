@@ -7,17 +7,24 @@
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
             <x-card>
-                <form action="{{route('publisher.update',$publisher->id)}}" method="POST">
+                <form
+                    action="{{isset($publisher) ? route('publisher.update',$publisher->id) : route('publisher.store')}}"
+                    method="POST"
+                >
                     @csrf
-                    @method('put')
+                    @method(isset($publisher) ? 'put' : 'post')
                     <x-input-group
                         name="name"
                         text="İsim"
                         type="text"
-                        :value="$publisher->name"
+                        :value="$publisher->name ?? null"
                     />
                     <div class="flex justify-between">
-                        <x-delete-button :action-url="route('publisher.destroy',$publisher->id)"/>
+                        @isset($publisher)
+                            <x-delete-button :action-url="route('publisher.destroy',$publisher->id)"/>
+                        @else
+                            <span></span>
+                        @endisset
                         <x-button>Kaydet</x-button>
                     </div>
                 </form>
