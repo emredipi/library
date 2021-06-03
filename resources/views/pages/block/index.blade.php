@@ -3,7 +3,12 @@
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
-            <x-table :columns="['id','Kod','İşlem']">
+            <div class="text-right mb-3">
+                <a href="{{route('block.create')}}">
+                    <x-button>Blok Ekle</x-button>
+                </a>
+            </div>
+            <x-table :columns="['ID','Kod','İşlem']">
                 @foreach($blocks as $block)
                     <tr>
                         <x-column>{{$block->id}}</x-column>

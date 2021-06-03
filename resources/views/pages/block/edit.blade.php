@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">Block Düzenle</x-slot>
+    <x-slot name="header">Blok Ekle</x-slot>
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
@@ -7,17 +7,22 @@
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
             <x-card>
-                <form action="{{route('block.update',$block->id)}}" method="POST">
+                <form action="{{isset($block) ? route('block.update',$block->id) : route('block.store')}}"
+                      method="POST">
                     @csrf
-                    @method('put')
+                    @method(isset($block) ? 'put' : 'post')
                     <x-input-group
                         name="code"
                         text="Kod"
                         type="text"
-                        :value="$block->code"
+                        :value="$block->code ?? null"
                     />
                     <div class="flex justify-between">
-                        <x-delete-button :action-url="route('block.destroy',$block->id)"/>
+                        @isset($block)
+                            <x-delete-button :action-url="route('block.destroy',$block->id)"/>
+                        @else
+                            <span></span>
+                        @endisset
                         <x-button>Kaydet</x-button>
                     </div>
                 </form>
