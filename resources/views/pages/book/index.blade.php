@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">Bloklar</x-slot>
+    <x-slot name="header">Kitaplar</x-slot>
     <x-section>
         <x-flash-message/>
         <div class="text-right mb-3">

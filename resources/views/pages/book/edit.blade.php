@@ -1,5 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">Kitap Düzenle</x-slot>
+    <x-slot name="header">
+        @isset($book)
+            Kitap Düzenle
+        @else
+            Yeni Kitap
+        @endisset
+    </x-slot>
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>

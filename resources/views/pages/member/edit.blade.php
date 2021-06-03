@@ -1,5 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">Üye Düzenle</x-slot>
+    <x-slot name="header">
+        @isset($member)
+            Üye Düzenle
+        @else
+            Yeni Üye
+        @endisset
+    </x-slot>
     <x-section>
         <div class="md:w-1/2 mx-auto">
             <x-flash-message/>
