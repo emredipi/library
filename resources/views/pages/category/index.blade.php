@@ -3,7 +3,12 @@
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
-            <x-table :columns="['id','Başlık','İşlem']">
+            <div class="text-right mb-3">
+                <a href="{{route('category.create')}}">
+                    <x-button>Kategori Ekle</x-button>
+                </a>
+            </div>
+            <x-table :columns="['ID','Başlık','İşlem']">
                 @foreach($categories as $category)
                     <tr>
                         <x-column>{{$category->id}}</x-column>

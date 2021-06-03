@@ -7,17 +7,24 @@
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
             <x-card>
-                <form action="{{route('category.update',$category->id)}}" method="POST">
+                <form
+                    action="{{isset($category) ? route('category.update',$category->id) : route('category.store')}}"
+                    method="POST"
+                >
                     @csrf
-                    @method('put')
+                    @method(isset($category) ? 'put' : 'post')
                     <x-input-group
                         name="name"
                         text="Başlık"
                         type="text"
-                        :value="$category->name"
+                        :value="$category->name ?? null"
                     />
                     <div class="flex justify-between">
-                        <x-delete-button :action-url="route('category.destroy',$category->id)"/>
+                        @isset($category)
+                            <x-delete-button :action-url="route('category.destroy',$category->id)"/>
+                        @else
+                            <span></span>
+                        @endisset
                         <x-button>Kaydet</x-button>
                     </div>
                 </form>
