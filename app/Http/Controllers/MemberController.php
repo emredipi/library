@@ -17,25 +17,35 @@ class MemberController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('pages.member.edit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'email' => 'required|email|unique:users',
+            'tc' => 'required|unique:members|numeric|digits:11',
+            'birth_date' => 'required|date'
+        ]);
+        $user = User::create([
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'password' => \Hash::make(\Str::random())
+        ]);
+
+        $user->member()->create([
+            'id' => $user->id,
+            'birth_date' => $request->birth_date,
+            'tc' => $request->tc,
+        ]);
+        return redirect()
+            ->route('member.edit', $user->id)
+            ->with('success', 'Üye Eklendi.');
     }
 
     /**
@@ -74,14 +84,11 @@ class MemberController extends Controller
         return back()->with('success', 'Üye güncellendi.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Member  $member
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Member $member)
+    public function destroy(Member $member): \Illuminate\Http\RedirectResponse
     {
-        //
+        $member->user()->delete();
+        return redirect()
+            ->route('member.index')
+            ->with('success', 'Üye silindi.');
     }
 }

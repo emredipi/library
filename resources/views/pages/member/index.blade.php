@@ -1,6 +1,12 @@
 <x-app-layout>
     <x-slot name="header">Üyeler</x-slot>
     <x-section>
+        <x-flash-message/>
+        <div class="text-right mb-3">
+            <a href="{{route('member.create')}}">
+                <x-button>Üye Ekle</x-button>
+            </a>
+        </div>
         <x-table
             :columns="['id','name','surname','email','birth_date','action']"
         >
