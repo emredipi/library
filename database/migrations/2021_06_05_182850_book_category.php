@@ -15,8 +15,12 @@ class BookCategory extends Migration
     {
         Schema::create('book_category', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('book_id');
-            $table->integer('category_id');
+            $table->foreignId('book_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('category_id')
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 
