@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <livewire:styles />
 </head>
-<body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100">
+<body class="font-sans antialiased bg-gray-100">
+<div class="min-h-screen">
 @include('layouts.navigation')
 <!-- Page Heading -->
     <header class="bg-white shadow">
@@ -29,5 +30,6 @@
     </main>
 </div>
 @stack('scripts')
+<livewire:scripts />
 </body>
 </html>
