@@ -1,12 +1,14 @@
 <?php
 
-use App\Models\Category;
-use App\Http\Controllers\{AuthorController,
+use App\Http\Controllers\{
+    AuthorController,
     BlockController,
     BookController,
+    BookCopyController,
     CategoryController,
     MemberController,
-    PublisherController};
+    PublisherController
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +39,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('block', BlockController::class);
     Route::resource('category', CategoryController::class);
     Route::resource('book', BookController::class);
+    Route::resource('book.book_copy', BookCopyController::class);
 });

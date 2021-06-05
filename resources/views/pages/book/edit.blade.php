@@ -28,12 +28,14 @@
                         type="text"
                         :value="$book->isbn??null"
                     />
-                    <x-input-group
-                        name="edition"
-                        text="Baskı"
-                        type="number"
-                        :value="$book->edition??null"
-                    />
+                    @if(!isset($book))
+                        <x-input-group
+                            name="edition"
+                            text="Baskı"
+                            type="number"
+                            :value="1"
+                        />
+                    @endif
                     <x-select
                         name="author_id"
                         text="Yazar"
@@ -58,6 +60,14 @@
                         :model="\App\Models\Category::class"
                         label="Kategoriler"
                     />
+                    @if(!isset($book))
+                        <x-input-group
+                            name="count"
+                            text="Adet"
+                            type="number"
+                            :value="1"
+                        />
+                    @endif
                     <div class="flex justify-between">
                         @isset($book)
                             <x-delete-button :action-url="route('book.destroy',$book->id)"/>
@@ -70,4 +80,41 @@
             </x-card>
         </div>
     </x-section>
+    @isset($book)
+        <x-section>
+            <div class="md:w-2/3 lg:w-1/2 mx-auto">
+                <div class="flex justify-between mb-3">
+                    <span class="text-2xl">Kopya Kitaplar</span>
+                    <a href="{{route('book.book_copy.create',$book->id)}}">
+                        <x-button>Yeni Kopya</x-button>
+                    </a>
+                </div>
+                <x-table :columns="['ID','Baskı','İşlem']">
+                    @foreach($copies as $copy)
+                        <tr>
+                            <x-column>{{$copy->id}}</x-column>
+                            <x-column>{{$copy->edition}}</x-column>
+                            <x-column>
+                                <x-delete-button
+                                    :action-url="route('book.book_copy.destroy',[
+                                    'book'=>$book->id,
+                                    'book_copy'=>$copy->id,
+                                    ])"
+                                    :icon="true"
+                                />
+                                <a href="{{route('book.book_copy.edit',[
+                                    'book'=>$book->id,
+                                    'book_copy'=>$copy->id,
+                                    ])}}">
+                                    <x-button>
+                                        <x-icon.edit/>
+                                    </x-button>
+                                </a>
+                            </x-column>
+                        </tr>
+                    @endforeach
+                </x-table>
+            </div>
+        </x-section>
+    @endisset
 </x-app-layout>

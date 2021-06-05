@@ -17,7 +17,6 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('isbn')->unique()->nullable();
-            $table->unsignedInteger('edition');
             $table->foreignId('author_id')
                 ->constrained()
                 ->cascadeOnDelete();

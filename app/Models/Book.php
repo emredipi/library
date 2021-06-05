@@ -9,7 +9,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'isbn', 'edition', 'author_id', 'publisher_id', 'block_id'];
+    protected $fillable = ['name', 'isbn', 'author_id', 'publisher_id', 'block_id'];
     public $timestamps = false;
 
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -30,5 +30,10 @@ class Book extends Model
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function copies(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(BookCopy::class);
     }
 }

@@ -35,11 +35,12 @@ class BookController extends Controller
         $book = Book::create($request->only([
             'name',
             'isbn',
-            'edition', 'author_id',
+            'author_id',
             'publisher_id',
             'block_id'
         ]));
         $book->categories()->sync($request->categories);
+        $book->copies()->createMany(array_fill(0, $request->count, ['edition' => $request->edition]));
         return redirect()
             ->route('book.edit', $book->id)
             ->with('success', 'Kitap eklendi.');
@@ -60,11 +61,12 @@ class BookController extends Controller
     {
         return view('pages.book.edit', [
             'book' => $book,
+            'copies' => $book->copies,
             'authors' => Author::all()->pluck('name', 'id'),
             'publishers' => Publisher::all()->pluck('name', 'id'),
             'blocks' => Block::all()->pluck('code', 'id'),
             'categories' => Category::all()->pluck('name', 'id'),
-            'selectedIds' => $book->categories->pluck('id')->toArray()
+            'selectedIds' => $book->categories->pluck('id')->toArray(),
         ]);
     }
 
@@ -73,7 +75,7 @@ class BookController extends Controller
         $book->update($request->only([
             'name',
             'isbn',
-            'edition', 'author_id',
+            'author_id',
             'publisher_id',
             'block_id'
         ]));

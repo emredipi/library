@@ -7,14 +7,13 @@
                 <x-button>Kitap Ekle</x-button>
             </a>
         </div>
-        <x-table :columns="['ID','İsim','Yazar','Yayınevi','Baskı','Blok','İşlem']">
+        <x-table :columns="['ID','İsim','Yazar','Yayınevi','Blok','İşlem']">
             @foreach($books as $book)
                 <tr>
                     <x-column>{{$book->id}}</x-column>
                     <x-column>{{$book->name}}</x-column>
                     <x-column>{{$book->author->name}} {{$book->author->surname}}</x-column>
                     <x-column>{{$book->publisher->name}}</x-column>
-                    <x-column>{{$book->edition}}</x-column>
                     <x-column>{{$book->block->code}}</x-column>
                     <x-column>
                         <a href="{{route('book.edit',$book->id)}}">
