@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Block;
 use App\Models\Book;
+use App\Models\Category;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,7 @@ class BookController extends Controller
             'authors' => Author::all()->pluck('name', 'id'),
             'publishers' => Publisher::all()->pluck('name', 'id'),
             'blocks' => Block::all()->pluck('code', 'id'),
+            'categories' => Category::all()->pluck('name', 'id')
         ]);
     }
 
@@ -37,6 +39,7 @@ class BookController extends Controller
             'publisher_id',
             'block_id'
         ]));
+        $book->categories()->sync($request->categories);
         return redirect()
             ->route('book.edit', $book->id)
             ->with('success', 'Kitap eklendi.');
@@ -60,6 +63,8 @@ class BookController extends Controller
             'authors' => Author::all()->pluck('name', 'id'),
             'publishers' => Publisher::all()->pluck('name', 'id'),
             'blocks' => Block::all()->pluck('code', 'id'),
+            'categories' => Category::all()->pluck('name', 'id'),
+            'selectedIds' => $book->categories->pluck('id')->toArray()
         ]);
     }
 
@@ -72,10 +77,11 @@ class BookController extends Controller
             'publisher_id',
             'block_id'
         ]));
+        $book->categories()->sync($request->categories);
         return back()->with('success', 'Kitap kaydedildi');
     }
 
-    public function destroy(Book $book)
+    public function destroy(Book $book): \Illuminate\Http\RedirectResponse
     {
         $book->delete();
         return redirect()

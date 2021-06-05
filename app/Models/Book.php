@@ -26,4 +26,9 @@ class Book extends Model
     {
         return $this->belongsTo(Publisher::class);
     }
+
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

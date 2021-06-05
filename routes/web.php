@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Http\Controllers\{AuthorController,
     BlockController,
     BookController,

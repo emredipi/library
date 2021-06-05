@@ -48,9 +48,15 @@
                     />
                     <x-select
                         name="block_id"
-                        text="Block"
+                        text="Blok"
                         :options="$blocks"
                         :value="$book->block_id??null"
+                    />
+                    <livewire:multi-select
+                        name="categories"
+                        :selected-ids="$selectedIds ?? []"
+                        :model="\App\Models\Category::class"
+                        label="Kategoriler"
                     />
                     <div class="flex justify-between">
                         @isset($book)
