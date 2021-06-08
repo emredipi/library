@@ -5,8 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600"/>
+                    <a href="{{ route('dashboard') }}" class="text-2xl font-bold">
+                        LMS
                     </a>
                 </div>
 
@@ -15,14 +15,14 @@
             @endphp
             <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
                     @foreach($links as $link)
                         <x-nav-link :href="route($link[1].'.index')" :active="request()->routeIs($link[1].'.*')">
                             {{ $link[0] }}
                         </x-nav-link>
                     @endforeach
+                    <x-nav-link :href="route('member.books',Auth::id())" :active="request()->routeIs('member.books')">
+                        Aldığım Kitaplar
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -49,7 +49,6 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                              onclick="event.preventDefault();
                                                 this.closest('form').submit();">
