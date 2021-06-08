@@ -11,4 +11,9 @@ class BookCopy extends Model
 
     protected $fillable = ['edition'];
     public $timestamps = false;
+
+    public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Book::class);
+    }
 }

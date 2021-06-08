@@ -13,9 +13,9 @@ class BookController extends Controller
 {
     public function index()
     {
-
         return view('pages.book.index', [
             'books' => Book::with('author', 'publisher', 'block')
+                ->withCount('available_copies')
                 ->paginate(10)
         ]);
     }

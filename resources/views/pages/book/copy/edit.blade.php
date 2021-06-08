@@ -1,11 +1,52 @@
 <x-app-layout>
     <x-slot name="header">
-        @isset($copy)
-            Kopya Kitap Düzenle
-        @else
-            Yeni Kopya Kitap
-        @endisset
+        <div class="inline-flex items-center gap-1">
+            @isset($copy)
+                Kopya Kitap Düzenle
+            @else
+                Yeni Kopya Kitap
+            @endisset
+        </div>
     </x-slot>
+    <x-section>
+        <div class="md:w-2/3 lg:w-1/2 mx-auto">
+            <x-table>
+                <tr>
+                    <x-column>Kitap</x-column>
+                    <x-column>{{$book->name}}</x-column>
+                </tr>
+                <tr>
+                    <x-column>ISBN</x-column>
+                    <x-column>{{$book->isbn}}</x-column>
+                </tr>
+                <tr>
+                    <x-column>Yazar</x-column>
+                    <x-column>{{$book->author->name}} {{$book->author->surname}}</x-column>
+                </tr>
+                <tr>
+                    <x-column>Yayınevi</x-column>
+                    <x-column>{{$book->publisher->name}}</x-column>
+                </tr>
+                <tr>
+                    <x-column>Block</x-column>
+                    <x-column>{{$book->block->code}}</x-column>
+                </tr>
+                <tr>
+                    <x-column>Kategoriler</x-column>
+                    <x-column>
+                        <div class="flex gap-1">
+                            @foreach($book->categories as $category)
+                                <span
+                                    class="transition-all bg-green-400 rounded p-1 text-sm text-white font-bold">
+                                {{$category->name}}
+                            </span>
+                            @endforeach
+                        </div>
+                    </x-column>
+                </tr>
+            </x-table>
+        </div>
+    </x-section>
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>

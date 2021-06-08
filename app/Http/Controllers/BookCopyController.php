@@ -29,9 +29,10 @@ class BookCopyController extends Controller
 
     public function edit(Book $book, BookCopy $bookCopy)
     {
+        $book->load('author', 'publisher', 'block', 'categories');
         return view('pages.book.copy.edit', [
             'copy' => $bookCopy,
-            'book' => $book
+            'book' => $book,
         ]);
     }
 

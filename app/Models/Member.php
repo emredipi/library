@@ -29,8 +29,8 @@ class Member extends Model
         return !!$this->banned_at;
     }
 
-    public function books()
+    public function book_copies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        //todo bookings
+        return $this->belongsToMany(BookCopy::class);
     }
 }
