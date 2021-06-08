@@ -5,6 +5,7 @@ use App\Http\Controllers\{
     BlockController,
     BookController,
     BookCopyController,
+    BorrowBookController,
     CategoryController,
     MemberController,
     PublisherController
@@ -40,4 +41,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class);
     Route::resource('book', BookController::class);
     Route::resource('book.book_copy', BookCopyController::class);
+    Route::resource('borrow', BorrowBookController::class);
 });
