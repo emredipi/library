@@ -2,7 +2,8 @@
     <x-slot name="header">Üyeler</x-slot>
     <x-section>
         <x-flash-message/>
-        <div class="text-right mb-3">
+        <div class="mb-3 flex justify-between">
+            <x-input type="text" placeholder="Ara..."/>
             <a href="{{route('member.create')}}">
                 <x-button>Üye Ekle</x-button>
             </a>
@@ -16,6 +17,11 @@
                     <x-column>{{$user->email}}</x-column>
                     <x-column>{{$user->birth_date}}</x-column>
                     <x-column>
+                        <a href="{{route('member.books',$user->id)}}">
+                            <x-button>
+                                <x-icon.book/>
+                            </x-button>
+                        </a>
                         <a href="{{route('member.edit',$user->id)}}">
                             <x-button>
                                 <x-icon.edit/>

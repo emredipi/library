@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\{
-    AuthorController,
+use App\Http\Controllers\{AuthorController,
     BlockController,
     BookController,
     BookCopyController,
@@ -35,6 +34,8 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
     Route::resource('member', MemberController::class);
+    Route::get('member/{member}/books', [MemberController::class, 'books'])
+        ->name('member.books');
     Route::resource('author', AuthorController::class);
     Route::resource('publisher', PublisherController::class);
     Route::resource('block', BlockController::class);
