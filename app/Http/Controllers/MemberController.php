@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\User;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -31,21 +32,29 @@ class MemberController extends Controller
             'tc' => 'required|unique:members|numeric|digits:11',
             'birth_date' => 'required|date'
         ]);
-        $user = User::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'email' => $request->email,
-            'password' => \Hash::make(\Str::random())
-        ]);
-
-        $user->member()->create([
-            'id' => $user->id,
-            'birth_date' => $request->birth_date,
-            'tc' => $request->tc,
-        ]);
-        return redirect()
-            ->route('member.edit', $user->id)
-            ->with('success', 'Üye Eklendi.');
+        \DB::beginTransaction();
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'surname' => $request->surname,
+                'email' => $request->email,
+                'password' => \Hash::make(\Str::random())
+            ]);
+            $user->member()->create([
+                'id' => $user->id,
+                'birth_date' => $request->birth_date,
+                'tc' => $request->tc,
+            ]);
+            \DB::commit();
+            return redirect()
+                ->route('member.edit', $user->id)
+                ->with('success', 'Üye Eklendi.');
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            return redirect()
+                ->route('member.index')
+                ->with('error', 'Üye eklenirken hata oluştu.');
+        }
     }
 
     /**
@@ -90,5 +99,16 @@ class MemberController extends Controller
         return redirect()
             ->route('member.index')
             ->with('success', 'Üye silindi.');
+    }
+
+    public function books(Member $member)
+    {
+        return view('pages.member.books', [
+            'member' => $member,
+            'bookCopies' => $member->book_copies()
+                ->with('book')
+                ->withPivot('given_date', 'id')
+                ->get()
+        ]);
     }
 }

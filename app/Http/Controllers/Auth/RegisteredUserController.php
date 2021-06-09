@@ -20,22 +20,22 @@ class RegisteredUserController extends Controller
 
     public function store(RegisterUserRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
 
-        $member = Member::create([
-            'id' => $user->id,
-            'birth_date' => $request->birth_date,
-            'tc' => $request->tc,
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
+        \DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'surname' => $request->surname,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            $member = Member::create([
+                'id' => $user->id,
+                'birth_date' => $request->birth_date,
+                'tc' => $request->tc,
+            ]);
+            event(new Registered($user));
+            Auth::login($user);
+        });
 
         return redirect(RouteServiceProvider::HOME);
     }
