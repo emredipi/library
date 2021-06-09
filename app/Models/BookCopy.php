@@ -16,4 +16,14 @@ class BookCopy extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    public function members(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Member::class);
+    }
+
+    public function active_member(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->members()->wherePivotNull('return_date');
+    }
 }

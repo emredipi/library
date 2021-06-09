@@ -106,6 +106,7 @@ class MemberController extends Controller
         return view('pages.member.books', [
             'member' => $member,
             'bookCopies' => $member->book_copies()
+                ->whereNull('return_date')
                 ->with('book')
                 ->withPivot('given_date', 'id')
                 ->get()
