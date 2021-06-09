@@ -22,12 +22,24 @@ class BorrowBookController extends Controller
         return view('pages.book.borrow.edit');
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request)//: \Illuminate\Http\RedirectResponse
     {
+        $request->validate([
+            'member' => 'required|numeric|exists:members,id',
+            'book_copy' => 'required|numeric|exists:book_copies,id',
+        ]);
         /* @var Member $member */
-        $member = Member::query()->findOrFail($request->member);
-        $bookCopy = BookCopy::query()->findOrFail($request->book_copy);
+        $member = Member::query()
+            ->findOrFail($request->member);
+        $bookCopy = BookCopy::query()
+            ->withExists('active_member')
+            ->findOrFail($request->book_copy);
         $member->book_copies()->attach($bookCopy, ['given_date' => now()]);
+        if ($bookCopy->active_member_exists) {
+            return back()->with('error', 'Kitap zaten başkası tarafından emanet alındı.');
+        } elseif ($member->is_banned) {
+            return back()->with('error', 'Üyenin hesabı donduruldu.');
+        }
         return redirect()
             ->route('member.books', $member->id)
             ->with('success', 'Kitap üyeye teslim edildi.');
