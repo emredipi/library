@@ -12,6 +12,11 @@ class Author extends Model
     protected $fillable = ['name', 'surname'];
     public $timestamps = false;
 
+    public function getFullNameAttribute()
+    {
+        return $this->name.' '.$this->surname;
+    }
+
     public function books()
     {
         //todo books of author

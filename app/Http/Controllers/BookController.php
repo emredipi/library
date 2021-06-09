@@ -23,7 +23,7 @@ class BookController extends Controller
     public function create()
     {
         return view('pages.book.edit', [
-            'authors' => Author::all()->pluck('name', 'id'),
+            'authors' => Author::all()->pluck('full_name', 'id'),
             'publishers' => Publisher::all()->pluck('name', 'id'),
             'blocks' => Block::all()->pluck('code', 'id'),
             'categories' => Category::all()->pluck('name', 'id')
