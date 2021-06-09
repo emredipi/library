@@ -25,7 +25,7 @@ Route::redirect('', '/login');
 
 require __DIR__.'/auth.php';
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'suspended'])->group(function () {
     Route::middleware('admin')->group(function () {
         Route::resource('member', MemberController::class);
         Route::resource('publisher', PublisherController::class);
