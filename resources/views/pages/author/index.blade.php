@@ -13,7 +13,8 @@
             </div>
             <x-table :columns="array_merge(['ID','Ad','Soyad'], Auth::user()->admin ? ['İşlem'] : [])">
                 @foreach($authors as $author)
-                    <tr>
+                    <tr onclick="location.href ='{{route('book.index',['author' => $author->id])}}';"
+                        class="hover:bg-gray-100 cursor-pointer">
                         <x-column>{{$author->id}}</x-column>
                         <x-column>{{$author->name}}</x-column>
                         <x-column>{{$author->surname}}</x-column>

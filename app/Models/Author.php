@@ -16,9 +16,4 @@ class Author extends Model
     {
         return $this->name.' '.$this->surname;
     }
-
-    public function books()
-    {
-        //todo books of author
-    }
 }

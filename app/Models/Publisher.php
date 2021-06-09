@@ -11,9 +11,4 @@ class Publisher extends Model
 
     protected $fillable = ['name'];
     public $timestamps = false;
-
-    public function books()
-    {
-        //todo books
-    }
 }

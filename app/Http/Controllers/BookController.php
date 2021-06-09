@@ -7,6 +7,7 @@ use App\Models\Block;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -16,6 +17,10 @@ class BookController extends Controller
         return view('pages.book.index', [
             'books' => Book::with('author', 'publisher', 'block')
                 ->withCount('available_copies')
+                ->when(
+                    \request()->has('author'),
+                    fn(Builder $q) => $q->where('author_id', \request()->author)
+                )
                 ->paginate(10)
         ]);
     }
