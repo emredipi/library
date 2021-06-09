@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Member::class, 'id');
     }
+
+    public function admin(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Admin::class, 'id');
+    }
 }

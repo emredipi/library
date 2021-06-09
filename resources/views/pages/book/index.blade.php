@@ -2,12 +2,16 @@
     <x-slot name="header">Kitaplar</x-slot>
     <x-section>
         <x-flash-message/>
-        <div class="text-right mb-3">
-            <a href="{{route('book.create')}}">
-                <x-button>Kitap Ekle</x-button>
-            </a>
+        <div class="mb-3 flex justify-between">
+            <x-input type="text" placeholder="Ara..."/>
+            @if(Auth::user()->admin)
+                <a href="{{route('book.create')}}">
+                    <x-button>Kitap Ekle</x-button>
+                </a>
+            @endif
         </div>
-        <x-table :columns="['ID','İsim','Yazar','Yayınevi','Blok','Müsait Kopya','İşlem']">
+        <x-table
+            :columns="array_merge(['ID','İsim','Yazar','Yayınevi','Blok','Müsait Kopya'], Auth::user()->admin ? ['İşlem'] : [])">
             @foreach($books as $book)
                 <tr>
                     <x-column>{{$book->id}}</x-column>
@@ -16,13 +20,15 @@
                     <x-column>{{$book->publisher->name}}</x-column>
                     <x-column>{{$book->block->code}}</x-column>
                     <x-column>{{$book->available_copies_count}}</x-column>
-                    <x-column>
-                        <a href="{{route('book.edit',$book->id)}}">
-                            <x-button>
-                                <x-icon.edit/>
-                            </x-button>
-                        </a>
-                    </x-column>
+                    @if(Auth::user()->admin)
+                        <x-column>
+                            <a href="{{route('book.edit',$book->id)}}">
+                                <x-button>
+                                    <x-icon.edit/>
+                                </x-button>
+                            </a>
+                        </x-column>
+                    @endif
                 </tr>
             @endforeach
         </x-table>

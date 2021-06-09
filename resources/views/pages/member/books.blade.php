@@ -8,13 +8,16 @@
             @endif
             <div class="mb-3 flex justify-between">
                 <x-input type="text" placeholder="Ara..."/>
-                <a href="{{route('borrow.create',['member'=>$member->id])}}">
-                    <x-button>
-                        Kitap Ver
-                    </x-button>
-                </a>
+                @if(Auth::user()->admin)
+                    <a href="{{route('borrow.create',['member'=>$member->id])}}">
+                        <x-button>
+                            Kitap Ver
+                        </x-button>
+                    </a>
+                @endif
             </div>
-            <x-table :columns="['ID','Kitap','Kitap Kopya ID','Alınma Zamanı','Teslim Zamanı','İşlem']">
+            <x-table
+                :columns="array_merge(['ID','Kitap','Kitap Kopya ID','Alınma Zamanı','Teslim Zamanı'], Auth::user()->admin?['İşlem']:[])">
                 @foreach($bookCopies as $copy)
                     <tr>
                         <x-column>{{$copy->pivot->id}}</x-column>
@@ -23,13 +26,15 @@
                         <x-column>{{$copy->pivot->given_date}}</x-column>
                         <x-column>{{\Carbon\Carbon::make($copy->pivot->given_date)->addDay(14)->diffForHumans(['parts' => 2])}}
                         </x-column>
-                        <x-column>
-                            <a href="{{route('borrow.edit',$copy->pivot->id)}}">
-                                <x-button>
-                                    <x-icon.exhange/>
-                                </x-button>
-                            </a>
-                        </x-column>
+                        @if(Auth::user()->admin)
+                            <x-column>
+                                <a href="{{route('borrow.edit',$copy->pivot->id)}}">
+                                    <x-button>
+                                        <x-icon.exhange/>
+                                    </x-button>
+                                </a>
+                            </x-column>
+                        @endif
                     </tr>
                 @endforeach
             </x-table>

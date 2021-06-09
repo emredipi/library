@@ -8,13 +8,16 @@
     </x-slot>
     <x-section>
         <div class="md:w-1/2 mx-auto">
-           <div class="text-right mb-3">
-               <a href="{{route('member.books',$member->id)}}">
-                   <x-button>
-                       <x-icon.book/> <span class="ml-2">Alınan Kitaplar</span>
-                   </x-button>
-               </a>
-           </div>
+            <div class="text-right mb-3">
+                @isset($member)
+                    <a href="{{route('member.books',$member->id)}}">
+                        <x-button>
+                            <x-icon.book/>
+                            <span class="ml-2">Alınan Kitaplar</span>
+                        </x-button>
+                    </a>
+                @endisset
+            </div>
             <x-flash-message/>
             @if($errors->any())
                 <x-alert type="error" :message="$errors->first()"/>

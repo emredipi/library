@@ -11,7 +11,18 @@
                 </div>
 
             @php
-                $links = [['Yazarlar','author'],['Yayınevleri','publisher'],['Bloklar','block'],['Kitaplar','book'],['Üyeler','member']];
+                $links = Auth::user()->admin ?
+                 [
+                     ['Yazarlar','author'],
+                     ['Yayınevleri','publisher'],
+                     ['Bloklar','block'],
+                     ['Kitaplar','book'],
+                     ['Üyeler','member']
+                 ]
+                 :[
+                     ['Yazarlar','author'],
+                     ['Kitaplar','book'],
+                ];
             @endphp
             <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -20,9 +31,12 @@
                             {{ $link[0] }}
                         </x-nav-link>
                     @endforeach
-                    <x-nav-link :href="route('member.books',Auth::id())" :active="request()->routeIs('member.books')">
-                        Aldığım Kitaplar
-                    </x-nav-link>
+                    @unless(Auth::user()->admin)
+                        <x-nav-link :href="route('member.books',Auth::id())"
+                                    :active="request()->routeIs('member.books')">
+                            Aldığım Kitaplar
+                        </x-nav-link>
+                    @endunless
                 </div>
             </div>
 
@@ -83,6 +97,12 @@
                     {{ $link[0] }}
                 </x-responsive-nav-link>
             @endforeach
+            @unless(Auth::user()->admin)
+                <x-responsive-nav-link :href="route('member.books',Auth::id())"
+                                       :active="request()->routeIs('member.books')">
+                    Aldığım Kitaplar
+                </x-responsive-nav-link>
+            @endunless
         </div>
 
         <!-- Responsive Settings Options -->

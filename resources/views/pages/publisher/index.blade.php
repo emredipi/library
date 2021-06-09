@@ -3,7 +3,8 @@
     <x-section>
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
-            <div class="text-right mb-3">
+            <div class="mb-3 flex justify-between">
+                <x-input type="text" placeholder="Ara..."/>
                 <a href="{{route('publisher.create')}}">
                     <x-button>Yayınevi Ekle</x-button>
                 </a>

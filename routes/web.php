@@ -26,14 +26,20 @@ Route::redirect('', '/login');
 require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
-    Route::resource('member', MemberController::class);
+    Route::middleware('admin')->group(function () {
+        Route::resource('member', MemberController::class);
+        Route::resource('publisher', PublisherController::class);
+        Route::resource('block', BlockController::class);
+        Route::resource('category', CategoryController::class);
+        Route::resource('borrow', BorrowBookController::class);
+        Route::resource('book.book_copy', BookCopyController::class);
+        Route::resource('author', AuthorController::class)->except('index', 'show');
+    });
+    Route::resource('book', BookController::class)->except('index', 'show');
+
     Route::get('member/{member}/books', [MemberController::class, 'books'])
         ->name('member.books');
-    Route::resource('author', AuthorController::class);
-    Route::resource('publisher', PublisherController::class);
-    Route::resource('block', BlockController::class);
-    Route::resource('category', CategoryController::class);
-    Route::resource('book', BookController::class);
-    Route::resource('book.book_copy', BookCopyController::class);
-    Route::resource('borrow', BorrowBookController::class);
+
+    Route::resource('author', AuthorController::class)->only('index');
+    Route::resource('book', BookController::class)->only('index');
 });

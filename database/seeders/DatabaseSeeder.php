@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Publisher;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,5 +20,6 @@ class DatabaseSeeder extends Seeder
         //$this->call(BlockSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(BookSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }
