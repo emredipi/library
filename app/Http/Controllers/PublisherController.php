@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Publisher;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PublisherController extends Controller
@@ -10,7 +11,13 @@ class PublisherController extends Controller
     public function index()
     {
         return view('pages.publisher.index', [
-            'publishers' => Publisher::paginate(10)
+            'publishers' => Publisher::query()
+                ->when(
+                    \request()->has('search'),
+                    fn(Builder $q) => $q->where('name', 'like', '%'.\request()->search.'%')
+                )
+                ->paginate(10)
+                ->withQueryString()
         ]);
     }
 

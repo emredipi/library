@@ -4,7 +4,9 @@
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
             <div class="mb-3 flex justify-between">
-                <x-input type="text" placeholder="Ara..."/>
+                <form action="{{route('block.index')}}">
+                    <x-input name="search" type="text" placeholder="Ara..."/>
+                </form>
                 <a href="{{route('block.create')}}">
                     <x-button>Blok Ekle</x-button>
                 </a>

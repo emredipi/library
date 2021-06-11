@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
@@ -10,7 +11,14 @@ class AuthorController extends Controller
     public function index()
     {
         return view('pages.author.index', [
-            'authors' => Author::paginate(10)
+            'authors' => Author::query()
+                ->when(
+                    \request()->has('search'),
+                    fn(Builder $q) => $q->where('name', 'like', '%'.\request()->search.'%')
+                    ->orWhere('surname', 'like', '%'.\request()->search.'%')
+                )
+                ->paginate(10)
+                ->withQueryString()
         ]);
     }
 
@@ -25,17 +33,6 @@ class AuthorController extends Controller
         return redirect()
             ->route('author.edit', $author->id)
             ->with('success', 'Yazar eklendi.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Author $author)
-    {
-        //
     }
 
     public function edit(Author $author)

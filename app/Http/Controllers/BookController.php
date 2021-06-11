@@ -21,7 +21,12 @@ class BookController extends Controller
                     \request()->has('author'),
                     fn(Builder $q) => $q->where('author_id', \request()->author)
                 )
+                ->when(
+                    \request()->has('search'),
+                    fn(Builder $q) => $q->where('name', 'like', '%'.\request()->search.'%')
+                )
                 ->paginate(10)
+                ->withQueryString()
         ]);
     }
 

@@ -6,8 +6,7 @@
             @if($errors->any())
                 <x-alert type="error" :message="$errors->first()"/>
             @endif
-            <div class="mb-3 flex justify-between">
-                <x-input type="text" placeholder="Ara..."/>
+            <div class="mb-3 text-right">
                 @if(Auth::user()->admin)
                     <a href="{{route('borrow.create',['member'=>$member->id])}}">
                         <x-button>

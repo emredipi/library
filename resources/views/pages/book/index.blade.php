@@ -3,7 +3,9 @@
     <x-section>
         <x-flash-message/>
         <div class="mb-3 flex justify-between">
-            <x-input type="text" placeholder="Ara..."/>
+            <form action="{{route('book.index')}}">
+                <x-input name="search" type="text" placeholder="Ara..." value="{{request()->search}}"/>
+            </form>
             @if(Auth::user()->admin)
                 <a href="{{route('book.create')}}">
                     <x-button>Kitap Ekle</x-button>

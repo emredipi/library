@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Block;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class BlockController extends Controller
@@ -11,7 +12,13 @@ class BlockController extends Controller
     public function index()
     {
         return view('pages.block.index', [
-            'blocks' => Block::paginate(10)
+            'blocks' => Block::query()
+                ->when(
+                    \request()->has('search'),
+                    fn(Builder $q) => $q->where('code', 'like', '%'.\request()->search.'%')
+                )
+                ->paginate(10)
+                ->withQueryString()
         ]);
     }
 

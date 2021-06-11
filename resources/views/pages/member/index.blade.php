@@ -3,7 +3,9 @@
     <x-section>
         <x-flash-message/>
         <div class="mb-3 flex justify-between">
-            <x-input type="text" placeholder="Ara..."/>
+            <form action="{{route('member.index')}}">
+                <x-input name="search" type="text" placeholder="Ara..."/>
+            </form>
             <a href="{{route('member.create')}}">
                 <x-button>Üye Ekle</x-button>
             </a>

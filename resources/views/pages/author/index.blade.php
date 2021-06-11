@@ -4,7 +4,9 @@
         <div class="md:w-2/3 lg:w-1/2 mx-auto">
             <x-flash-message/>
             <div class="mb-3 flex justify-between">
-                <x-input type="text" placeholder="Ara..."/>
+                <form action="{{route('author.index')}}">
+                    <x-input name="search" type="text" placeholder="Ara..."/>
+                </form>
                 @if(Auth::user()->admin)
                     <a href="{{route('author.create')}}">
                         <x-button>Yazar Ekle</x-button>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\User;
-use Illuminate\Database\MySqlConnection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -14,7 +14,13 @@ class MemberController extends Controller
         return view('pages.member.index', [
             'users' => User::query()
                 ->join('members', 'users.id', '=', 'members.id')
+                ->when(
+                    \request()->has('search'),
+                    fn(Builder $q) => $q->where('name', 'like', '%'.\request()->search.'%')
+                        ->orWhere('surname', 'like', '%'.\request()->search.'%')
+                )
                 ->paginate(10)
+                ->withQueryString()
         ]);
     }
 
@@ -55,17 +61,6 @@ class MemberController extends Controller
                 ->route('member.index')
                 ->with('error', 'Üye eklenirken hata oluştu.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Member  $member
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Member $member)
-    {
-        //
     }
 
     public function edit($id)
