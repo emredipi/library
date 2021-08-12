@@ -11,16 +11,23 @@ class MemberController extends Controller
 {
     public function index()
     {
+        $users = User::query()
+            ->select(['id', 'name', 'surname', 'email'])
+            ->addSelect([
+                'birth_date' => Member::query()
+                    ->select('birth_date')
+                    ->whereColumn('id', 'members.id')
+                    ->limit(1)
+            ])
+            ->when(
+                \request()->has('search'),
+                fn(Builder $q) => $q->where('name', 'like', '%'.\request()->search.'%')
+                    ->orWhere('surname', 'like', '%'.\request()->search.'%')
+            )
+            ->paginate(10)
+            ->withQueryString();
         return view('pages.member.index', [
-            'users' => User::query()
-                ->join('members', 'users.id', '=', 'members.id')
-                ->when(
-                    \request()->has('search'),
-                    fn(Builder $q) => $q->where('name', 'like', '%'.\request()->search.'%')
-                        ->orWhere('surname', 'like', '%'.\request()->search.'%')
-                )
-                ->paginate(10)
-                ->withQueryString()
+            'users' => $users
         ]);
     }
 
